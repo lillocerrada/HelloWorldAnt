@@ -1,8 +1,12 @@
 # HelloWorldAnt
 Repositorio con ejemplo de Hello World desplegado con Ant
 
-Preparing the projectWe want to separate the source from the generated files, so our java source files will be in src folder. All generated files should be under build, and there splitted into several subdirectories for the individual steps: classes for our compiled files and jar for our own JAR-file.
+Preparing the project
+
+We want to separate the source from the generated files, so our java source files will be in src folder. All generated files should be under build, and there splitted into several subdirectories for the individual steps: classes for our compiled files and jar for our own JAR-file.
+
 We have to create only the src directory. (Because I am working on Windows, here is the win-syntax - translate to your shell):
+
 md src
 
 The following simple Java class just prints a fixed message out to STDOUT, so just write this code into src\oata\HelloWorld.java.
@@ -28,8 +32,11 @@ jar cfm build\jar\HelloWorld.jar myManifest -C build\classes .
 java -jar build\jar\HelloWorld.jar
 
 Note: Do not have blanks around the >-sign in the echo Main-Class instruction because it would falsify it!
+
 Four steps to a running applicationAfter finishing the java-only step we have to think about our build process. We have to compile our code, otherwise we couldn't start the program. Oh - "start" - yes, we could provide a target for that. We should package our application. Now it's only one class - but if you want to provide a download, no one would download several hundreds files ... (think about a complex Swing GUI - so let us create a jar file. A startable jar file would be nice ... And it's a good practise to have a "clean" target, which deletes all the generated stuff. Many failures could be solved just by a "clean build".
+
 By default Ant uses build.xml as the name for a buildfile, so our .\build.xml would be:
+
 <project>
 
     <target name="clean">
@@ -171,6 +178,7 @@ Using external librariesSomehow told us not to use syso-statements. For log-Stat
 	* it's from Apache ;-)
 
 We store our external libraries in a new directory lib. Log4J can be downloaded [1] from Logging's Homepage. Create the lib directory and extract the log4j-1.2.9.jar into that lib-directory. After that we have to modify our java source to use that library and our buildfile so that this library could be accessed during compilation and run.
+
 Working with Log4J is documented inside its manual. Here we use the MyApp-example from the Short Manual [2]. First we have to modify the java source to use the logging framework:
 package oata;
 
@@ -229,6 +237,7 @@ What's that?
 	* Hello World the message
 
 For another layout ... have a look inside Log4J's documentation about using other PatternLayout's.Configuration filesWhy we have used Log4J? "It's highly configurable"? No - all is hard coded! But that is not the debt of Log4J - it's ours. We had coded BasicConfigurator.configure(); which implies a simple, but hard coded configuration. More comfortable would be using a property file. In the java source delete the BasicConfiguration-line from the main() method (and the related import-statement). Log4J will search then for a configuration as described in it's manual. Then create a new file src/log4j.properties. That's the default name for Log4J's configuration and using that name would make life easier - not only the framework knows what is inside, you too!
+
 log4j.rootLogger=DEBUG, stdout
 
 log4j.appender.stdout=org.apache.log4j.ConsoleAppender
